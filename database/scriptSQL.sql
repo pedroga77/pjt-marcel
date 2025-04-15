@@ -11,3 +11,4 @@ data_lancamento date not null,
 foto_capa varchar(200),
 link_trailer varchar(200)
 );
+

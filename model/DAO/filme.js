@@ -83,9 +83,22 @@ const deleteFilme = async function(id){
 }
 
 // Função retorna todos os Filmes Existente
-const selectAllFilme = async function(){
+const selectAllFilme = async function (){
+        try{
+    
+            
+            let sql = 'select * from tbl_filme order by id desc'
+            let result = await prisma.$queryRawUnsafe(sql)
+    
+            if(result)
+            return result
+            else
+            return false
+        }catch(error){
+            return false
+        }
+    }
 
-}
 // Função para buscar um filme pelo id
 const selectByIdFilme = async function (id){
 
@@ -110,7 +123,5 @@ module.exports = {
     deleteFilme,
     selectAllFilme,
     selectByIdFilme
-
-
 }
 
