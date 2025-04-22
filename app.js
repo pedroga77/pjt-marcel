@@ -44,6 +44,7 @@ app.use(cors())
 next()
   })
 
+  //FILME
 const controllerFilme = require('./controller/filme/controllerFilme.js')
 
   app.post('/v1/controle-filmes/filme', cors(),bodyParserJSON, async function(request,response){
@@ -102,6 +103,68 @@ let resultFilme = await controllerFilme.atualizarFilme(idFilme, dadosBody, conte
 response.status(resultFilme.status_code)
 response.json(resultFilme)
  })
+
+ //GENERO
+ const controllerGenero = require('./controller/genero/controllerGenero.js')
+
+ app.post('/v1/controle-genero/genero', cors(),bodyParserJSON, async function(request,response){
+  // Recebe o content type da requisição
+  let contentType = request.headers['content-type']
+  
+  let dadosBody = request.body
+  let resultGenero = await  controllerGenero.inserirGenero(dadosBody, contentType)
+
+response.status(resultGenero.status_code)
+response.json(resultGenero)
+})
+
+app.get('/v1/controle-genero/genero',cors(),async function(request, response){
+  // Chama a função para retornar os filmes
+  let resultGenero = await controllerGenero.ListarGenero()
+  
+  response.status(resultGenero.status_code)
+  response.json(resultGenero)
+  })
+
+  app.get('/v1/controle-genero/genero/:id', cors(), async function(request, response) {
+    let id = request.params.id
+    
+    let result = await controllerGenero.buscarGenero(id)
+  
+    
+        response.status(result.status_code)
+        response.json(result)
+     
+  })
+
+app.delete('/v1/controle-genero/genero/:id', cors(), async function(request, response){
+    let idGenero = request.params.id
+    
+    let result = await controllerGenero.excluirGenero(idGenero)
+    
+    response.status(result.status_code)
+    response.json(result)
+    })
+
+ app.put('/v1/controle-genero/genero/:id', cors(), bodyParserJSON,async function(request, response){
+
+      //Recebe o content Type da requisição
+    let contentType = request.headers['content-type']
+    
+    // Recebe o ID da requisição 
+    let idGenero = request.params.id
+    
+    // Recebe os dados da requisição pelo body
+    
+    let dadosBody = request.body
+    
+    let resultGenero = await controllerGenero.atualizarGenero(idGenero, dadosBody, contentType)
+    
+    response.status(resultGenero.status_code)
+    response.json(resultGenero)
+     })
+
+//NACIONALIDADE
 
 
   app.listen(8080,function(){
